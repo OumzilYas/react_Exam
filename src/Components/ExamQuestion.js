@@ -4,14 +4,15 @@ const ExamQuestion = (props) => {
     var uuid = require('uuid');
     let examResultData= []
     let randomIndex = Math.floor(Math.random() * 4)
+    let RclImage = ""
     if(props.weight){
         let holder = []
         switch (props.weight.answerKey) {
             case "KG":
                 if(props.weight.key === "LBS"){
-                    holder[0] = {value: (props.weight.number / 2).toFixed(0) , unit: props.weight.answerKey} 
-                    holder[1] = {value: (props.weight.number / 2.4).toFixed(0) , unit: props.weight.answerKey} 
-                    holder[2] = {value: (props.weight.number / 2.1).toFixed(0) , unit: props.weight.answerKey} 
+                    holder[0] = {value: Math.ceil(props.weight.number / 2) , unit: props.weight.answerKey} 
+                    holder[1] = {value: Math.ceil(props.weight.number / 2.4) , unit: props.weight.answerKey} 
+                    holder[2] = {value: Math.ceil(props.weight.number / 2.1) , unit: props.weight.answerKey} 
 
                 }else { // KEY = TON
                     holder[0] = {value: (props.weight.number * 100) , unit: props.weight.answerKey} 
@@ -21,9 +22,9 @@ const ExamQuestion = (props) => {
                 break;
             case "LBS":
                 if(props.weight.key === "KG"){
-                    holder[0] = {value: (props.weight.number * 2).toFixed(0) , unit: props.weight.answerKey} 
-                    holder[1] = {value: (props.weight.number * 2.4).toFixed(0) , unit: props.weight.answerKey} 
-                    holder[2] = {value: (props.weight.number * 2.1).toFixed(0) , unit: props.weight.answerKey} 
+                    holder[0] = {value: Math.ceil(props.weight.number * 2), unit: props.weight.answerKey} 
+                    holder[1] = {value: Math.ceil(props.weight.number * 2.4) , unit: props.weight.answerKey} 
+                    holder[2] = {value: Math.ceil(props.weight.number * 2.1) , unit: props.weight.answerKey} 
 
                 }else { // KEY = TON
                     holder[0] = {value: (props.weight.number * 2000).toFixed(0) , unit: props.weight.answerKey} 
@@ -91,23 +92,41 @@ const ExamQuestion = (props) => {
             }
         }
     }
-    
-    
-    function handleChange(event) {
-        const {name, value, type, checked} = event.target
-        // setFormData(prevFormData => {
-        //     return {
-        //         ...prevFormData,
-        //         [name]: type === "checkbox" ? checked : value
-        //     }
-        // })
+    if(props.RCL){
+        switch (props.RCL.grove) {
+            case "AT 750B":
+                RclImage = <div className='exam-question-rcl-img-container' style={{backgroundImage: `url(${props.RCL.img})`}} >
+                                <div className='exam-question-rcl-img-angle'  style={{top:"65%",right:"20%"}}>{props.RCL.angle}°</div>
+                                <div className='exam-question-rcl-img-length' style={{top:"74%",right:"70%"}}>{props.RCL.length}m</div>
+                                {/* <div className='exam-question-rcl-img-height' style={{top:"",right:""}}>{props.RCL.height}m</div> */}
+                                <div className='exam-question-rcl-img-radius' style={{top:"24%",right:"86%"}}>{props.RCL.radius}m</div>
+                            </div>
+                break;
+            case "RT 755":
+                RclImage = <div className='exam-question-rcl-img-container' style={{backgroundImage: `url(${props.RCL.img})`}} > 
+                                <div className='exam-question-rcl-img-angle'  style={{top:"73%",right:"82%"}}>{props.RCL.angle}°</div>
+                                <div className='exam-question-rcl-img-length' style={{top:"55%",right:"26%"}}>{props.RCL.length}m</div>
+                                <div className='exam-question-rcl-img-height' style={{top:"41%",right:"55%"}}>{props.RCL.height}m</div>
+                                <div className='exam-question-rcl-img-radius' style={{top:"26%",right:"37%"}}>{props.RCL.radius}m</div>
+                            </div>
+                break;
+            case "TM 1150":
+                RclImage = <div className='exam-question-rcl-img-container' style={{backgroundImage: `url(${props.RCL.img})`}} > 
+                            <div className='exam-question-rcl-img-angle'  style={{top:"76%",right:"77%"}}>{props.RCL.angle}°</div>
+                            <div className='exam-question-rcl-img-length' style={{top:"59%",right:"25%"}}>{props.RCL.length}m</div>
+                            <div className='exam-question-rcl-img-height' style={{top:"58%",right:"59%"}}>{props.RCL.height}m</div>
+                            <div className='exam-question-rcl-img-radius' style={{top:"32%",right:"36%"}}>{props.RCL.radius}m</div>
+                        </div>
+                break;
+            default:
+                break;
+        }
     }
-
     return (
         <div className='exam-question'>
             <div className='exam-question-line'>
                 {   props.weight &&
-                    <div><span>{props.order}.</span> How many {props.weight.answerKey} is <span >({props.weight.number})</span> {props.weight.key} . Do any calculations in this space.</div>
+                    <div><span>{props.order}.</span> How many {props.weight.answerKey} is <span >({props.weight.number}) {props.weight.key} </span> . Do any calculations in this space.</div>
                 }
                 {
                     props.range &&
@@ -132,12 +151,29 @@ const ExamQuestion = (props) => {
                         </div>
                     </div>
                 }
+                {   props.RCL &&
+                    <div>
+                        <div style={{textAlign: "center"}} >Refer to drawing and the Grove <span >({props.RCL.grove})</span> load chart and range diagram.</div>
+                        <h5 style={{textAlign: "center"}}>What is the total weight of the load?</h5>
+                        {RclImage}
+                    </div>
+                }
             </div>
-            <div className='exam-question-results'>
-                <ExamResult data={examResultData[0]} order="A" handleChange={handleChange} name={props.inputName} id={uuid.v1()} checked={props.checked} />
-                <ExamResult data={examResultData[1]} order="B" handleChange={handleChange} name={props.inputName} id={uuid.v1()} checked={props.checked}  />
-                <ExamResult data={examResultData[2]} order="C" handleChange={handleChange} name={props.inputName} id={uuid.v1()} checked={props.checked}  />
-                <ExamResult data={examResultData[3]} order="D" handleChange={handleChange} name={props.inputName} id={uuid.v1()} checked={props.checked}  />
+            <div >
+                {
+                    (props.weight || props.range || props.POL|| props.handSignal ) && 
+                    <div className='exam-question-results'>
+                        <ExamResult data={examResultData[0]} order="A"  name={props.inputName} id={uuid.v1()} checked={props.checked} />
+                        <ExamResult data={examResultData[1]} order="B"  name={props.inputName} id={uuid.v1()} checked={props.checked}  />
+                        <ExamResult data={examResultData[2]} order="C"  name={props.inputName} id={uuid.v1()} checked={props.checked}  />
+                        <ExamResult data={examResultData[3]} order="D"  name={props.inputName} id={uuid.v1()} checked={props.checked}  />
+                    </div>
+                }
+                {
+                    props.RCL && 
+                    <ExamResult data={props.RCL.weights}  />
+                }
+                
 
             </div>
 

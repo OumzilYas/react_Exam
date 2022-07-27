@@ -1,6 +1,17 @@
 import ExamQuestion from '../Components/ExamQuestion' 
-
 const {importImages} = require('./imagesImport')
+
+function shuffle(array) {
+  let currentIndex = array.length,  randomIndex;
+  while (currentIndex != 0) {
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+    [array[currentIndex], array[randomIndex]] = [
+      array[randomIndex], array[currentIndex]];
+  }
+  return array;
+}
+
 function generateWeigth(){
   const keys = ["KG", "LBS", "TON"]
   let minWeight = 2500
@@ -21,7 +32,7 @@ function generateWeigth(){
         do {
           weight.number = Math.floor(Math.random() * (maxWeight - minWeight + 1)) + minWeight
         } while ((((weight.number*10) % 22)/10) != 0);
-        weight.answer = weight.number / 2.2
+        weight.answer = Math.ceil(weight.number / 2.2)
         weight.key = "LBS"
       }else{
         minWeight = minWeight / 1000
@@ -40,7 +51,7 @@ function generateWeigth(){
         do {
           weight.answer = Math.floor(Math.random() * (maxWeight - minWeight + 1)) + minWeight
         } while ((((weight.answer*10) % 22)/10) != 0);
-        weight.number = weight.answer / 2.2 // kg
+        weight.number = Math.ceil(weight.answer / 2.2) // kg
         weight.key = "KG"
       }else{
         minWeight = minWeight * 2.2
@@ -77,14 +88,6 @@ function generateWeigth(){
   return weight
 }
 
-function generateHandSignal(num, img) {
-  let handSignal ={
-    img: img,
-    answer: "",
-    fakeAnswers: []
-  }
-  
-}
 export function generateWeigthsEelements(name){
     let weights=[]
     for(let i=0; i<20; i++){
@@ -264,7 +267,7 @@ export function generatePartOfLineElements(name){
 } 
 export function generateHandSignalsElements(name) {
   let signals=[]
-  let signalsImg = importImages()
+  let signalsImg = importImages("hand signals")
   let handSignalsText =[
     "Use main hoist",
     "Use auxiliary hoist",
@@ -301,8 +304,101 @@ export function generateHandSignalsElements(name) {
     signals[index] = <ExamQuestion key={index} handSignal={signal} order={index+1} inputName={"inputsNumber"+index} qstType={name} /> ;
     
   }
+  signals = shuffle(signals)
   return signals
 }
+function generateRclLoadweights(grove) {
+  let Loadweights = []
+  switch (grove) {
+    case "AT 750B":
+      Loadweights[0] = "LOAD WEIGHT"
+      Loadweights[1] = "RIGGING EQUIPMENT WEIGHT"
+      Loadweights[2] = "STOWED SWINGAWY"
+      Loadweights[3] = "EXTENDED SWINGAWY"
+      Loadweights[4] = "POWER PIN FLY EXTENDED"
+      Loadweights[5] = "POWER PIN FLY STOWED"
+      Loadweights[6] = "13.6 MT 1 – SHEAVE"
+      Loadweights[7] = "27.2 MT 2 - SHEAVE"
+      Loadweights[8] = "36.3 MT 4 - SHEAVE"
+      Loadweights[9] = "36.3 MT 4 – SHEAVE (W/CHEEK PLATES)"
+      Loadweights[10] = "40.8 MT 3 – SHEAVE"
+      Loadweights[11] = "40.8 MT 3- SHEAVE (W/CHEEK PLATES)"
+      Loadweights[12] = "AUXILIARY BOOM NOSE"
+      Loadweights[13] = "9.1 MT. HEADACHE BALL"
+      Loadweights[14] = "6.8 MT. HEADACHE BALL"
+      
+      break;
+    case "RT 755":
+      Loadweights[0] = "LOAD WEIGHT"
+      Loadweights[1] = "RIGGING EQUIPMENT WEIGHT"
+      Loadweights[2] = "STOWED SWINGAWY"
+      Loadweights[3] = "EXTENDED SWINGAWY"
+      Loadweights[4] = "POWER PIN FLY EXTENDED"
+      Loadweights[5] = "POWER PIN FLY STOWED"
+      Loadweights[6] = "55 Ton (50 MT) 4 Sheave"
+      Loadweights[7] = "15 Ton (13.6 MT) 1 Sheave"
+      Loadweights[8] = "Auxiliary Boom Head"
+      Loadweights[9] = "5 Ton (4.5 MT) Headache Ball"
+      Loadweights[10] = "7-1/2 Ton (6.8 MT) Headache Ball"
+      Loadweights[11] = "10 Ton (9.1 MT) Headache Ball"
+    
+      break;
+    case "TM 1150":
+      Loadweights[0] = "LOAD WEIGHT"
+      Loadweights[1] = "RIGGING EQUIPMENT WEIGHT"
+      Loadweights[2] = "STOWED SWINGAWY"
+      Loadweights[3] = "EXTENDED SWINGAWY"
+      Loadweights[4] = "POWER PIN FLY EXTENDED"
+      Loadweights[5] = "POWER PIN FLY STOWED"
+      Loadweights[6] = "125Ton6 – SHEAVE"
+      Loadweights[7] = "30 Ton1 - SHEAVE"
+      Loadweights[8] = "AUXILIARY BOOM BALL"
+      Loadweights[9] = "10Ton HEADACHE BALL"
+      Loadweights[10] = "15Ton HEADACHE BALL"
+    
+      break;
+  
+    default:
+      break;
+  }
+  return Loadweights
+}
+export function generateRclElements(name){
+  let Rcl= {
+    grove: "",
+    img   : "",
+    height: "",
+    length: "",
+    angle : "",
+    radius: "",
+    weights: []
+  }
+  let rclImgs = importImages("rcl")
+  let groves = ["AT 750B","RT 755","TM 1150"]
+  let min = {
+    height: 10,
+    length: 10,
+    angle : 10,
+    radius: 4,
+  }
+  let max = {
+    height: 54,
+    length: 60,
+    angle : 71,
+    radius: 44,
+  } 
+  const randomGroveNumber = Math.floor(Math.random() * groves.length)
+  Rcl.grove = groves[ randomGroveNumber ]
+  Rcl.img = rclImgs[randomGroveNumber]
+  Rcl.height = Math.floor(Math.random() * (max.height - min.height + 1)) + min.height
+  Rcl.length = Math.floor(Math.random() * (max.length - min.length + 1)) + min.length
+  Rcl.angle = Math.floor(Math.random() * (max.angle - min.angle + 1)) + min.angle
+  Rcl.radius = Math.floor(Math.random() * (max.radius - min.radius + 1)) + min.radius
+  Rcl.weights = generateRclLoadweights(Rcl.grove)
+
+  return <ExamQuestion RCL={Rcl} inputName={"inputsNumber"+1} qstType={name} />
+}
+
 function fixDuplicatedValues(mainValue, value1, value2, value3) {
   let values = []
   let plusORminus = 0

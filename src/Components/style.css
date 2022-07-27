@@ -139,3 +139,61 @@ animation: zoom 1s ease-in 0s 1 both;
     max-width: 190px;
     max-height: 140px;
 }
+.exam-question-rcl-img-container{
+    width: 44vw;
+    height: 23vw;
+    border: 2px solid black;
+    background-size: contain;
+    background-repeat: no-repeat;
+    box-sizing: border-box;
+    position: relative;
+}
+.exam-question-rcl-img-container > div {
+    display: inline-block;
+    font-weight: bold;
+    position: absolute;
+
+}
+.tg  {
+    border-collapse:collapse;
+    border-spacing:0;
+    margin:0px auto;
+    margin-top: 35px;
+    width: 44vw;
+    border: 2px solid;
+}
+.tg td{
+    border-color:black;
+    border-style:solid;
+    border-width:1px;
+    font-family:Arial, sans-serif;
+    font-size:14px;
+    overflow:hidden;
+    padding:10px 5px;
+    word-break:normal;
+}
+.tg th{
+    border-color:black;
+    border-style:solid;
+    border-width:1px;
+    font-family:Arial, sans-serif;
+    font-size:14px;
+    font-weight:normal;
+    overflow:hidden;
+    padding:10px 5px;
+    word-break:normal;
+}
+.tg .tg-0lax{
+    text-align:left;
+    vertical-align:top;
+    font-size: medium;
+}
+.tg .tg-left{
+    width: 75%;
+    padding-left: 2%;
+}
+.tg .tg-right{
+    width: 25%;
+    font-weight: bold;
+    text-align: center;
+}
