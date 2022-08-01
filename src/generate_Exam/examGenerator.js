@@ -99,6 +99,7 @@ export function generateWeigthsEelements(name){
     return weights
 }
 export function generateRanges(name){
+  console.log("in range  function 1")
     let Ranges=[]
     let groves = ["AT 750B","RT 755","TM 1150"]
     let qstKeys = ["length","top height","angle","radius","hook elevation"]
@@ -118,6 +119,7 @@ export function generateRanges(name){
         }
         const rgrove = groves[ Math.floor(Math.random() * groves.length) ]
         const rkey = qstKeys[Math.floor(Math.random() * qstKeys.length)]
+        console.log("in range  function 2")
         switch(rkey) {
             case "length":
                 Range.dataNum1 = randomBetween(8,44)
@@ -131,13 +133,10 @@ export function generateRanges(name){
                 }
               break;
             case "top height":
-                Range.dataNum1 = randomBetween(8,44)
+                Range.dataNum1 = randomBetween(8,20)
                 Range.data1 = "Radius"
                 if(Math.floor(Math.random() * 2)){
-                  data={data2:"length",dataNum2: randomBetween(11,40)} 
-                  while (data.dataNum2<Range.dataNum1) {
-                    data.dataNum2 = randomBetween(11,40)
-                  }
+                  data={data2:"length",dataNum2: randomBetween(21,44)} 
                   Range.answer = calcRangeHeight(Range.dataNum1,0,data.dataNum2)
                 }else{
                   data={data2:"angle",dataNum2: randomBetween(10,71)}
@@ -145,16 +144,13 @@ export function generateRanges(name){
                 }
             break;
             case "angle":
-                Range.dataNum1 = randomBetween(8,44)
+                Range.dataNum1 = randomBetween(8,20)
                 Range.data1 = "Radius"
                 if(Math.floor(Math.random() * 2)){
-                  data={data2:"top height",dataNum2: randomBetween(10,50)} 
+                  data={data2:"top height",dataNum2: randomBetween(21,50)} 
                   Range.answer = calcRangeAngle(Range.dataNum1,data.dataNum2,0)
                 }else{
                   data={data2:"length",dataNum2: randomBetween(11,40)}
-                  while (data.dataNum2 < Range.dataNum1) {
-                    data.dataNum2 = randomBetween(11,40)
-                  }
                   Range.answer = calcRangeAngle(Range.dataNum1,0,data.dataNum2)
                 }
             break;
@@ -184,9 +180,11 @@ export function generateRanges(name){
               break;
               
           }
+          console.log("in range  function 3")
         Range={...Range, grove: rgrove, key: rkey, data2: data.data2, dataNum2: data.dataNum2}
         Ranges.push(<ExamQuestion key={i} range={Range} order={i+1} inputName={"inputsNumber"+i} qstType={name}/>)
     }
+    console.log("in range  function 4")
     return Ranges
 }
 
