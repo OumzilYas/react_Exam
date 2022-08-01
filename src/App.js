@@ -12,6 +12,11 @@ import Range from './pages/Range/Range';
 import ConvertWeights from './pages/ConvertWeights/ConvertWeights';
 import PartOfLine from './pages/PartOfLine/PartOfLine';
 import Navbar from './Components/Navbar/Navbar';
+import BoomAngle from './pages/BoomAngle/BoomAngle'
+import GrossCapacity from './pages/GrossCapacity/GrossCapacity'
+import LoadedBoomAngle from './pages/LoadedBoomAngle/LoadedBoomAngle'
+import MaximumBoomLength from './pages/MaximumBoomLength/MaximumBoomLength'
+import MaximumRadius from './pages/MaximumRadius/MaximumRadius'
 
 const App = () => {
   return (
@@ -33,6 +38,21 @@ const App = () => {
         </Route>
         <Route path="/Rcl" exact>
           <Rcl/>
+        </Route>
+        <Route path="/BoomAngle" exact>
+          <BoomAngle/>
+        </Route>
+        <Route path="/GrossCapacity" exact>
+          <GrossCapacity/>
+        </Route>
+        <Route path="/LoadedBoomAngle" exact>
+          <LoadedBoomAngle/>
+        </Route>
+        <Route path="/MaximumBoomLength" exact>
+          <MaximumBoomLength/>
+        </Route>
+        <Route path="/MaximumRadius" exact>
+          <MaximumRadius/>
         </Route>
         <Redirect to="/" />
       </Switch>

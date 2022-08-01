@@ -112,6 +112,34 @@ i {
   bottom: 0;
   left: -25px;
 }
+.dropdown{
+  color: white;
+}
+.dropdown-icon{
+  color: white;
+  text-align: center;
+  margin-top: 18px;
+  padding-right: 10px;
+}
+.dropdown:hover .dropdown-items{
+  display: block;
+}
+.dropdown-items{
+  display: none;
+  position: absolute;
+  top: 63px;
+  right: 0%;
+  background-color: #000;
+  color: #fff !important;
+  border-radius: 0px 0px 25px 25px;
+  padding-bottom: 9px;
+}
+.dropdown-item{
+  color: #fff;
+}
+
+
+
 @media (max-width: 991px) {
   #navbarSupportedContent ul li a {
     padding: 12px 30px;

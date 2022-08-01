@@ -33,7 +33,14 @@ const Navbar = () => {
       });
     });
   }
-
+  function displayBlock(){
+    let dropdownItems = document.getElementById('dropdown-items')
+    dropdownItems.style.display = "block"
+  }
+  function displayNone(){
+    let dropdownItems = document.getElementById('dropdown-items')
+    dropdownItems.style.display = "none"
+  }
   useEffect(() => {
     
     animation();
@@ -93,10 +100,46 @@ const Navbar = () => {
             </li>
             <li className="nav-item">
               <NavLink className="nav-link" to="/Rcl" exact>
-                RCL
+              Total weight
               </NavLink>
             </li>
+            <li className="nav-item d-block d-lg-none">
+              <NavLink className="nav-link" to="/MaximumRadius" exact>
+              Maximum radius
+              </NavLink>
+            </li>
+            <li className="nav-item d-block d-lg-none">
+              <NavLink className="nav-link" to="/GrossCapacity" exact>
+              Gross capacity
+              </NavLink>
+            </li>
+            <li className="nav-item d-block d-lg-none">
+              <NavLink className="nav-link" to="/BoomAngle" exact>
+              Boom angle high &amp; low
+              </NavLink>
+            </li>
+            <li className="nav-item d-block d-lg-none">
+              <NavLink className="nav-link" to="/LoadedBoomAngle" exact>
+              Loaded boom angle
+              </NavLink>
+            </li>
+            <li className="nav-item d-block d-lg-none">
+              <NavLink className="nav-link" to="/MaximumBoomLength" exact>
+              Maximum boom length
+              </NavLink>
+            </li>
+            <li className="nav-item d-none d-lg-block dropdown">
+              <div className='dropdown-icon' id='dropdown-icon' onMouseOver={displayBlock} >▼</div>
+              
+            </li>
         </ul>
+      </div>
+      <div className='dropdown-items' id="dropdown-items" onMouseLeave={displayNone}>
+        <a className="dropdown-item" href="/MaximumRadius">Maximum radius</a>
+        <a className="dropdown-item" href="/GrossCapacity">Gross capacity</a>
+        <a className="dropdown-item" href="/BoomAngle">Boom angle high &amp; low</a>
+        <a className="dropdown-item" href="/LoadedBoomAngle">Loaded boom angle</a>
+        <a className="dropdown-item" href="/MaximumBoomLength">Maximum boom length</a>
       </div>
   </nav>
   )

@@ -23,7 +23,12 @@ const ExamPage = (props) => {
         if(props.name=== "Hand Signals"){
             setExamQuestions( generateHandSignalsElements(props.name))
         }
-        if(props.name=== "RCL"){
+        if(props.name=== "Total weight" 
+        || props.name=== "Maximum radius" 
+        || props.name=== "Gross capacity" 
+        || props.name=== "Boom angle high and low" 
+        || props.name=== "Loaded boom angle" 
+        || props.name=== "Maximum Boom Length"){
             setExamQuestions( generateRclElements(props.name))
         }
         
@@ -44,7 +49,12 @@ const ExamPage = (props) => {
         if(props.name=== "Hand Signals"){
             setExamQuestions( generateHandSignalsElements(props.name))
             // generateHandSignalsElements(props.name)
-        }if(props.name=== "RCL"){
+        }if(props.name=== "Total weight" 
+        || props.name=== "Maximum radius" 
+        || props.name=== "Gross capacity" 
+        || props.name=== "Boom angle high and low" 
+        || props.name=== "Loaded boom angle" 
+        || props.name=== "Maximum Boom Length"){
             setExamQuestions( generateRclElements(props.name))
         }
         

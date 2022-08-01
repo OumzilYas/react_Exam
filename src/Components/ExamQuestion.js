@@ -63,10 +63,21 @@ const ExamQuestion = (props) => {
         for(let i=0; i<4; i++){
             if(i === randomIndex) examResultData[i]={value: props.range.answer, unit: unit}
             else {
-                let randomGap = Math.floor(Math.random() * (200 - 100 + 1)) + 100
+                let randomNbrs = [];
+                while(randomNbrs.length < 4){
+                    let r = Math.floor(Math.random() * 5) + 1;
+                    if(randomNbrs.indexOf(r) === -1) randomNbrs.push(r);
+                }
                 let plusORminus = Math.floor(Math.random() * 2)
-                if(plusORminus) examResultData[i] = {value: props.range.answer + randomGap, unit: unit}
-                else examResultData[i] = {value: props.range.answer - randomGap, unit: unit}
+                if(plusORminus) {
+                    let val = props.range.answer + randomNbrs[i]
+                    examResultData[i] = {value: val, unit: unit}
+                }
+                else {
+                    let val = props.range.answer - randomNbrs[i]
+                    val > 0 ? val = val : val = props.range.answer + randomNbrs[i]
+                    examResultData[i] = {value: val, unit: unit}
+                }
             }
         }
     }
@@ -154,7 +165,7 @@ const ExamQuestion = (props) => {
                 {   props.RCL &&
                     <div>
                         <div style={{textAlign: "center"}} >Refer to drawing and the Grove <span >({props.RCL.grove})</span> load chart and range diagram.</div>
-                        <h5 style={{textAlign: "center"}}>What is the total weight of the load?</h5>
+                        <h5 style={{textAlign: "center"}}>{props.RCL.qst}</h5>
                         {RclImage}
                     </div>
                 }
@@ -173,6 +184,19 @@ const ExamQuestion = (props) => {
                     props.RCL && 
                     <ExamResult data={props.RCL.weights}  />
                 }
+                {
+                    props.RCL && 
+                    <hr/>
+                }
+                {
+                    props.RCL && 
+                    <div className='exam-question-rcl-img-container' style={{backgroundImage: `url(${props.RCL.img})`}} ></div>
+                }
+                {
+                    props.RCL && 
+                    <ExamResult data={props.RCL.weights} empty={true} />
+                }
+                
                 
 
             </div>

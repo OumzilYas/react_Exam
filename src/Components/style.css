@@ -147,11 +147,13 @@ animation: zoom 1s ease-in 0s 1 both;
     background-repeat: no-repeat;
     box-sizing: border-box;
     position: relative;
+    margin: 5px auto;
 }
 .exam-question-rcl-img-container > div {
     display: inline-block;
     font-weight: bold;
     position: absolute;
+    font-size: 1vw;
 
 }
 .tg  {
@@ -159,7 +161,7 @@ animation: zoom 1s ease-in 0s 1 both;
     border-spacing:0;
     margin:0px auto;
     margin-top: 35px;
-    width: 44vw;
+    width: 100%;
     border: 2px solid;
 }
 .tg td{
@@ -197,3 +199,12 @@ animation: zoom 1s ease-in 0s 1 both;
     font-weight: bold;
     text-align: center;
 }
+hr{
+    margin: 81px 0px;
+    border: 1px solid #aaa;
+}
+@media only screen and (max-width: 500px) {
+    .exam-question-results{
+        flex-direction: column;
+    }
+  }

@@ -87,7 +87,9 @@ function generateWeigth(){
   }
   return weight
 }
-
+function randomBetween(min, max){
+  return Math.floor(Math.random() * (max - min + 1)) + min
+}
 export function generateWeigthsEelements(name){
     let weights=[]
     for(let i=0; i<20; i++){
@@ -108,40 +110,81 @@ export function generateRanges(name){
             key : "",
             dataNum1 :0,
             dataNum2 : 0,
-            answer: 88
+            answer: 0
+        }
+        let data = {
+          data2: "",
+          dataNum2: 0
         }
         const rgrove = groves[ Math.floor(Math.random() * groves.length) ]
         const rkey = qstKeys[Math.floor(Math.random() * qstKeys.length)]
         switch(rkey) {
             case "length":
+                Range.dataNum1 = randomBetween(8,44)
                 Range.data1 = "Radius"
-                Math.floor(Math.random() * 2) ? Range.data2 = "top height" : Range.data2 = "angle"
+                if(Math.floor(Math.random() * 2)){
+                  data={data2:"top height",dataNum2: randomBetween(10,50)} 
+                  Range.answer = calcRangeLength(Range.dataNum1,data.dataNum2,0)
+                }else{
+                  data={data2:"angle",dataNum2: randomBetween(10,71)}
+                  Range.answer = calcRangeLength(Range.dataNum1,0,data.dataNum2)
+                }
               break;
             case "top height":
+                Range.dataNum1 = randomBetween(8,44)
                 Range.data1 = "Radius"
-                Math.floor(Math.random() * 2) ? Range.data2 = "length" : Range.data2 = "angle"
+                if(Math.floor(Math.random() * 2)){
+                  data={data2:"length",dataNum2: randomBetween(11,40)} 
+                  while (data.dataNum2<Range.dataNum1) {
+                    data.dataNum2 = randomBetween(11,40)
+                  }
+                  Range.answer = calcRangeHeight(Range.dataNum1,0,data.dataNum2)
+                }else{
+                  data={data2:"angle",dataNum2: randomBetween(10,71)}
+                  Range.answer = calcRangeHeight(Range.dataNum1,data.dataNum2,0)
+                }
             break;
             case "angle":
+                Range.dataNum1 = randomBetween(8,44)
                 Range.data1 = "Radius"
-                Math.floor(Math.random() * 2) ? Range.data2 = "top height" : Range.data2 = "length"
+                if(Math.floor(Math.random() * 2)){
+                  data={data2:"top height",dataNum2: randomBetween(10,50)} 
+                  Range.answer = calcRangeAngle(Range.dataNum1,data.dataNum2,0)
+                }else{
+                  data={data2:"length",dataNum2: randomBetween(11,40)}
+                  while (data.dataNum2 < Range.dataNum1) {
+                    data.dataNum2 = randomBetween(11,40)
+                  }
+                  Range.answer = calcRangeAngle(Range.dataNum1,0,data.dataNum2)
+                }
             break;
             case "radius":
+                Range.dataNum1 = randomBetween(10,71)
                 Range.data1 = "Angle"
-                Math.floor(Math.random() * 2) ? Range.data2 = "top height" : Range.data2 = "length"
+                if(Math.floor(Math.random() * 2)){
+                  data={data2:"top height",dataNum2: randomBetween(10,50)} 
+                  Range.answer = calcRangeRadius(Range.dataNum1,data.dataNum2,0)
+                }else{
+                  data={data2:"length",dataNum2: randomBetween(11,40)}
+                  Range.answer = calcRangeRadius(Range.dataNum1,0,data.dataNum2)
+                }
             break;
             case "hook elevation":
+                Range.dataNum1 = randomBetween(8,44)
                 Range.data1 = "Radius"
-                Math.floor(Math.random() * 2) ? Range.data2 = "length" : Range.data2 = "angle"
+                if(Math.floor(Math.random() * 2)){
+                  data={data2:"length",dataNum2: randomBetween(11,40)}
+                  Range.answer = randomBetween(10,40)
+                }else{
+                  data={data2:"angle",dataNum2: randomBetween(10,71)}
+                  Range.answer = randomBetween(10,40)
+                }
               break;
             default:
               break;
               
           }
-        const rdataNum1 = Math.floor(Math.random() * (70 - 10 + 1)) + 10
-        const rdataNum2 = Math.floor(Math.random() * (70 - 10 + 1)) + 10
-        
-
-        Range={...Range, grove: rgrove, key: rkey, dataNum1:rdataNum1, dataNum2:rdataNum2}
+        Range={...Range, grove: rgrove, key: rkey, data2: data.data2, dataNum2: data.dataNum2}
         Ranges.push(<ExamQuestion key={i} range={Range} order={i+1} inputName={"inputsNumber"+i} qstType={name}/>)
     }
     return Ranges
@@ -371,7 +414,8 @@ export function generateRclElements(name){
     length: "",
     angle : "",
     radius: "",
-    weights: []
+    weights: [],
+    qst: ""
   }
   let rclImgs = importImages("rcl")
   let groves = ["AT 750B","RT 755","TM 1150"]
@@ -395,6 +439,30 @@ export function generateRclElements(name){
   Rcl.angle = Math.floor(Math.random() * (max.angle - min.angle + 1)) + min.angle
   Rcl.radius = Math.floor(Math.random() * (max.radius - min.radius + 1)) + min.radius
   Rcl.weights = generateRclLoadweights(Rcl.grove)
+
+  switch (name) {
+    case "Total weight":
+      Rcl.qst = "What is the total weight of the load?"
+      break;
+    case "Maximum radius":
+      Rcl.qst = "What is the Maximum Radius can be lifted?"
+      break;
+    case "Gross capacity":
+      Rcl.qst = "What is the Gross Capacity at Minimum Radius?"
+      break;
+    case "Boom angle high and low":
+      Rcl.qst = "What is the High Boom Angle at Minimum Radius?"
+      break;
+    case "Loaded boom angle":
+      Rcl.qst = "What is the Loaded Boom Angle at Minimum Radius?"
+      break;
+    case "Maximum Boom Length":
+      Rcl.qst = "What is the Maximum Boom Length of the lift shown?"
+      break;
+  
+    default:
+      break;
+  }
 
   return <ExamQuestion RCL={Rcl} inputName={"inputsNumber"+1} qstType={name} />
 }
@@ -430,33 +498,33 @@ function degreesToRadians(degrees)
   var pi = Math.PI;
   return degrees * (pi/180);
 }
-export function calcRangeAngle(radius, height = 0, length = 0) {
+function calcRangeAngle(radius, height = 0, length = 0) {
   if ( height ) {
-    return radiansToDegrees(Math.atan(height / radius)) //S
+    return Math.floor(radiansToDegrees(Math.atan(height / radius)) )
   }
   if (length) {
-    return radiansToDegrees(Math.acos(radius / length))
+    return Math.floor(radiansToDegrees(Math.acos(radius / length))) // R/L >= -1 && <= 1 
   }
 }
-export function calcRangeHeight(radius, angle = 0, length = 0) {
+function calcRangeHeight(radius, angle = 0, length = 0) {
   if ( angle ) {
-    return 
+    return Math.floor(radius * Math.tan(angle)) // need fix
   }
   if (length) {
-    return Math.sqrt(( length * length) - (radius * radius))
+    return Math.floor(Math.sqrt(( length * length) - (radius * radius))) // need adjustment
   }
 }
-export function calcRangeLength(radius, height = 0, angle = 0) {
+function calcRangeLength(radius, height = 0, angle = 0) {
   if ( height ) {
-    return Math.sqrt(( radius * radius) + (height * height))
+    return Math.floor(Math.sqrt(( radius * radius) + (height * height)))
   }
   if (angle) {
-    return 
+    return Math.floor( radius / Math.cos(degreesToRadians(angle))) // angle !== 90 // need fix
   }
 }
-export function calcRangeRadius(angle, height = 0, length = 0) {
+function calcRangeRadius(angle, height = 0, length = 0) {
   if ( height ) {
-    return Math.floor( length / Math.cos(degreesToRadians(angle)))
+    return Math.floor( height / Math.tan(degreesToRadians(angle))) // angle !== 90
   }
   if (length) {
     // return  Math.sqrt(( length * length) - (height * height))
